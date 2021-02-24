@@ -16,12 +16,12 @@ logLevel = "INFO"
 [entryPoints.websecure]
   address = ":443"
 
- # Let's encrypt configuration
- [acme]
-   email="sebastian.michaelsen@swisscom.com"
-   storage="/etc/traefik/acme/acme.json"
-   entryPoint="https"
-   acmeLogging=true
-   OnHostRule=true
-   [acme.httpChallenge]
-     entryPoint = "http"
+# Let's encrypt configuration
+[acme]
+  email="sebastian.michaelsen@swisscom.com"
+  storage="/etc/traefik/acme/acme.json"
+  entryPoint="https"
+  acmeLogging=true
+  OnHostRule=true
+  [acme.httpChallenge]
+    entryPoint = "http"
