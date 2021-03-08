@@ -16,13 +16,22 @@ services:
     image: traefik/whoami
     labels:
       - "traefik.http.routers.whoami.rule=Path(`/whoami`)"
-  allure_typo3:
-    image: "frankescobar/allure-docker-service"
-    environment:
-      CHECK_RESULTS_EVERY_SECONDS: 5
-      KEEP_HISTORY: 1
-    ports:
-      - "5050:5050"
+
+  phpunit:
+    image: nginx
     volumes:
-      - ./allure_typo3/allure-results:/app/allure-results
-      - ./allure_typo3/allure-reports:/app/default-reports
+      - /home/ci/phpunit:/usr/share/nginx/html
+    labels:
+      - "traefik.http.routers.phpunit.rule=PathPrefix(`/phpunit/`)"
+
+  allure_typo3:
+    image: frankescobar/allure-docker-service
+    environment:
+      - CHECK_RESULTS_EVERY_SECONDS=3
+      - KEEP_HISTORY=1
+    volumes:
+      - /home/ci/allure_typo3/allure_results:/app/allure-results
+      - /home/ci/allure_typo3/allure_reports:/app/default-reports
+    labels:
+      - "traefik.http.routers.allure_typo3.rule=PathPrefix(`/allure_typo3/`)"
+      - "traefik.http.services.allure_typo3.loadbalancer.server.port=5050"
