@@ -1,15 +1,26 @@
 version: '3'
 
 services:
-  reverse-proxy:
+  traefik:
+    container_name: traefik
     image: traefik:v2.4
-    command: --api.insecure=true --providers.docker --providers.docker.useBindPortIP=true
+    command:
+     - --api.insecure=true
+     - --providers.docker
+     - --providers.docker.useBindPortIP=true
+     - --entrypoints.web.address=:80
+     - --entrypoints.websecure.address=:443
+     - --certificatesresolvers.leresolver.acme.httpchallenge=true
+     - --certificatesresolvers.leresolver.acme.email=sebastian@michaelsen.io
+     - --certificatesresolvers.leresolver.acme.storage=./acme.json
+     - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./acme.json:/acme.json
   whoami:
     image: traefik/whoami
     labels:
