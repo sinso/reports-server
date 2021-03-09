@@ -54,3 +54,14 @@ services:
       - "traefik.http.routers.home.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/`)"
       - "traefik.http.routers.home.entrypoints=websecure"
       - "traefik.http.routers.home.tls.certresolver=myresolver"
+
+  allure_typo3:
+    image: frankescobar/allure-docker-service
+    environment:
+      - CHECK_RESULTS_EVERY_SECONDS=3
+      - KEEP_HISTORY=1
+    ports:
+      - "5050:5050"
+    volumes:
+      - /home/ci/allure_typo3/allure_results:/app/allure-results
+      - /home/ci/allure_typo3/allure_reports:/app/default-reports
