@@ -57,6 +57,7 @@ services:
 
   allure_typo3:
     image: frankescobar/allure-docker-service
+    container_name: allure_typo3
     environment:
       - CHECK_RESULTS_EVERY_SECONDS=3
       - KEEP_HISTORY=1
