@@ -1,46 +1,45 @@
-version: '3'
+version: "3.3"
 
 services:
+
   traefik:
-    container_name: traefik
-    image: traefik:v2.4
+    image: "traefik:v2.4"
+    container_name: "traefik"
     command:
-     - --api.insecure=true
-     - --providers.docker
-     - --providers.docker.useBindPortIP=true
-     - --entrypoints.web.address=:80
-     - --entrypoints.websecure.address=:443
-     - --certificatesresolvers.leresolver.acme.httpchallenge=true
-     - --certificatesresolvers.leresolver.acme.email=sebastian@michaelsen.io
-     - --certificatesresolvers.leresolver.acme.storage=./acme.json
-     - --certificatesresolvers.leresolver.acme.httpchallenge.entrypoint=web
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
+      #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.myresolver.acme.email=sebastian@michaelsen.io"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
       - "443:443"
       - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./acme.json:/acme.json
+      - "./letsencrypt:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
   whoami:
-    image: traefik/whoami
+    image: "traefik/whoami"
+    container_name: "simple-service"
     labels:
-      - "traefik.http.routers.whoami.rule=Path(`/whoami`)"
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/whoami/`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
   phpunit:
     image: nginx
-    volumes:
-      - /home/ci/phpunit:/usr/share/nginx/html
-    labels:
-      - "traefik.http.routers.phpunit.rule=PathPrefix(`/phpunit/`)"
-
-  allure_typo3:
-    image: frankescobar/allure-docker-service
-    environment:
-      - CHECK_RESULTS_EVERY_SECONDS=3
-      - KEEP_HISTORY=1
-    volumes:
-      - /home/ci/allure_typo3/allure_results:/app/allure-results
-      - /home/ci/allure_typo3/allure_reports:/app/default-reports
-    labels:
-      - "traefik.http.routers.allure_typo3.rule=PathPrefix(`/allure_typo3/`)"
-      - "traefik.http.services.allure_typo3.loadbalancer.server.port=5050"
+      container_name: phpunit
+      volumes:
+        - /home/ci/phpunit:/usr/share/nginx/html
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.whoami.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/phpunit/`)"
+        - "traefik.http.routers.whoami.entrypoints=websecure"
+        - "traefik.http.routers.whoami.tls.certresolver=myresolver"
