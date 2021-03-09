@@ -61,8 +61,12 @@ services:
     environment:
       - CHECK_RESULTS_EVERY_SECONDS=3
       - KEEP_HISTORY=1
-    ports:
-      - "5050:5050"
     volumes:
       - /home/ci/allure_typo3/allure_results:/app/allure-results
       - /home/ci/allure_typo3/allure_reports:/app/default-reports
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.allure_typo3.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/allure_typo3/`)"
+      - "traefik.http.routers.allure_typo3.entrypoints=websecure"
+      - "traefik.http.routers.allure_typo3.tls.certresolver=myresolver"
+      - "traefik.http.services.allure_typo3.loadbalancer.server.port=5050"
