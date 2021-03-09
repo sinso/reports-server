@@ -43,3 +43,14 @@ services:
       - "traefik.http.routers.phpunit.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/phpunit/`)"
       - "traefik.http.routers.phpunit.entrypoints=websecure"
       - "traefik.http.routers.phpunit.tls.certresolver=myresolver"
+
+  home:
+    image: nginx
+    container_name: home
+    volumes:
+      - /home/ci/home/:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.home.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/`)"
+      - "traefik.http.routers.home.entrypoints=websecure"
+      - "traefik.http.routers.home.tls.certresolver=myresolver"
