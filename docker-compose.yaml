@@ -37,7 +37,7 @@ services:
     image: nginx
     container_name: html
     volumes:
-      - ./nginx/:/etc/nginx/conf/
+      - ./nginx/:/etc/nginx/conf.d/
       - ./html/:/usr/share/nginx/html
       - /home/ci/allure_fractal/:/usr/share/nginx/html/allure_fractal
       - /home/ci/allure_typo3/:/usr/share/nginx/html/allure_typo3
