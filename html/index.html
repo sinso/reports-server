@@ -1,13 +1,57 @@
-<ul>
-	<li>
-		<a href="https://reports.michaelsen.io/whoami/">whoami</a>
-	<li>
-		<a href="https://reports.michaelsen.io/phpunit/test.html">PHPUnit results</a>
-	</li>
-	<li>
-		<a href="https://reports.michaelsen.io/allure_typo3/index.html">TYPO3 Visual Regression Test results</a>
-	</li>
-	<li>
-		<a href="https://reports.michaelsen.io/allure_fractal/index.html">Fractal Visual Regression Test results</a>
-	</li>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Sinso BJB Test Reports</title>
+	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	<style type="text/css">
+        .image-container {
+            object-fit: cover;
+        }
+	</style>
+</head>
+
+<div class="container">
+	<h1>Sinso BJB Test Reports</h1>
+	<div class="row row-cols-1 row-cols-md-2 g-4">
+		<div class="col-xs-12 col-sm-6 col-md-4">
+			<div class="card">
+				<a href="https://reports.michaelsen.io/phpunit/test.html" class="image-container ratio ratio-4x3">
+					<img src="./images/UnitTests.png" class="card-img-top" alt="">
+				</a>
+				<div class="card-body">
+					<h5 class="card-title">PHPUnit tests</h5>
+					<p class="card-text">PHP Unit tests for CMS functionality</p>
+					<a href="https://reports.michaelsen.io/phpunit/test.html">Open Report</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4">
+			<div class="card">
+				<a href="https://reports.michaelsen.io/allure_typo3/index.html" class="image-container ratio ratio-4x3">
+					<img src="./images/typo3.png" class="card-img-top" alt="">
+				</a>
+				<div class="card-body">
+					<h5 class="card-title">TYPO3 Visual Regression Tests</h5>
+					<p class="card-text">Visual Tests for the CMS</p>
+					<a href="https://reports.michaelsen.io/allure_typo3/index.html">Open Report</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-12 col-sm-6 col-md-4">
+			<div class="card">
+				<a href="https://reports.michaelsen.io/allure_fractal/index.html" class="image-container ratio ratio-4x3">
+					<img src="./images/fractal.png" class="card-img-top" alt="">
+				</a>
+				<div class="card-body">
+					<h5 class="card-title">Fractal Visual Regression Tests</h5>
+					<p class="card-text">Visual Tests for fractal</p>
+					<a href="https://reports.michaelsen.io/allure_fractal/index.html">Open Report</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</html>

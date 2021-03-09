@@ -39,8 +39,8 @@ services:
     volumes:
       - ./html/:/usr/share/nginx/html
       - /home/ci/allure_fractal/:/usr/share/nginx/html/allure_fractal
-      - /home/ci/phpunit/:/usr/share/nginx/html/phpunit
       - /home/ci/allure_typo3/:/usr/share/nginx/html/allure_typo3
+      - /home/ci/phpunit/:/usr/share/nginx/html/phpunit
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.home.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/`)"
