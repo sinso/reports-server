@@ -48,7 +48,7 @@ services:
     image: nginx
     container_name: home
     volumes:
-      - /home/ci/home/:/usr/share/nginx/html
+      - ./home/:/usr/share/nginx/html
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.home.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/`)"
@@ -67,6 +67,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.allure_typo3.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/allure_typo3/`)"
+      - "traefik.http.routers.allure_typo3.middlewares=allure-typo3-stripprefix"
+      - "traefik.http.middlewares.allure-typo3-stripprefix.stripprefix.prefixes=/allure_typo3"
       - "traefik.http.routers.allure_typo3.entrypoints=websecure"
       - "traefik.http.routers.allure_typo3.tls.certresolver=myresolver"
       - "traefik.http.services.allure_typo3.loadbalancer.server.port=5050"
