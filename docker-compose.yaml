@@ -35,11 +35,11 @@ services:
 
   phpunit:
     image: nginx
-      container_name: phpunit
-      volumes:
-        - /home/ci/phpunit:/usr/share/nginx/html
-      labels:
-        - "traefik.enable=true"
-        - "traefik.http.routers.whoami.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/phpunit/`)"
-        - "traefik.http.routers.whoami.entrypoints=websecure"
-        - "traefik.http.routers.whoami.tls.certresolver=myresolver"
+    container_name: phpunit
+    volumes:
+      - /home/ci/phpunit:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/phpunit/`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=myresolver"
