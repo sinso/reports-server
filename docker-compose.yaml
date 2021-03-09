@@ -33,42 +33,13 @@ services:
       - "traefik.http.routers.whoami.entrypoints=websecure"
       - "traefik.http.routers.whoami.tls.certresolver=myresolver"
 
-  phpunit:
+  html:
     image: nginx
-    container_name: phpunit
+    container_name: html
     volumes:
-      - /home/ci/phpunit:/usr/share/nginx/html
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.phpunit.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/phpunit/`)"
-      - "traefik.http.routers.phpunit.entrypoints=websecure"
-      - "traefik.http.routers.phpunit.tls.certresolver=myresolver"
-
-  home:
-    image: nginx
-    container_name: home
-    volumes:
-      - ./home/:/usr/share/nginx/html
+      - ./html/:/usr/share/nginx/html
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.home.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/`)"
       - "traefik.http.routers.home.entrypoints=websecure"
       - "traefik.http.routers.home.tls.certresolver=myresolver"
-
-  allure_typo3:
-    image: frankescobar/allure-docker-service
-    container_name: allure_typo3
-    environment:
-      - CHECK_RESULTS_EVERY_SECONDS=3
-      - KEEP_HISTORY=1
-    volumes:
-      - /home/ci/allure_typo3/allure_results:/app/allure-results
-      - /home/ci/allure_typo3/allure_reports:/app/default-reports
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.allure_typo3.rule=Host(`reports.michaelsen.io`) && PathPrefix(`/allure_typo3/`)"
-      - "traefik.http.routers.allure_typo3.middlewares=allure-typo3-stripprefix"
-      - "traefik.http.middlewares.allure-typo3-stripprefix.stripprefix.prefixes=/allure_typo3"
-      - "traefik.http.routers.allure_typo3.entrypoints=websecure"
-      - "traefik.http.routers.allure_typo3.tls.certresolver=myresolver"
-      - "traefik.http.services.allure_typo3.loadbalancer.server.port=5050"
